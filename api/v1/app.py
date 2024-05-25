@@ -7,9 +7,11 @@ from models import storage
 from api.v1.views import app_views
 from os import getenv
 from werkzeug.exceptions import NotFound
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
 
