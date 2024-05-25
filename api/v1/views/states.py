@@ -34,9 +34,10 @@ def get_states(state_id=None):
     '''
     all_states = storage.all(State).values()
     if state_id:
-        res = list(filter(lambda x: x.id == state_id, all_states))
-        if res:
-            return jsonify(res[0].to_dict())
+        state = next((state for state in all_states if state.id == state_id),
+                     None)
+        if state:
+            return jsonify(state.to_dict())
         raise NotFound()
     all_states = list(map(lambda x: x.to_dict(), all_states))
     return jsonify(all_states)
