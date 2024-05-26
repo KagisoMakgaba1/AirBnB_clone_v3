@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 '''Contains the states view for the API.'''
-from flask import jsonify, request
-from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 from api.v1.views import app_views
+from flask import jsonify, request
 from models import storage
 from models.state import State
+from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 
 ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']

@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """places_reviews"""
+
 from api.v1.views import app_views
+from datetime import datetime
 from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.review import Review
-from datetime import datetime
 import uuid
 
 
