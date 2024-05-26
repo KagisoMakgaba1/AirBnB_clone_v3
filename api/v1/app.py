@@ -2,12 +2,12 @@
 '''Contains a Flask web application API.
 '''
 
-from flask import Flask, jsonify
-from models import storage
 from api.v1.views import app_views
+from flask import Flask, jsonify
+from flask_cors import CORS
+from models import storage
 from os import getenv
 from werkzeug.exceptions import NotFound
-from flask_cors import CORS
 
 
 app = Flask(__name__)
