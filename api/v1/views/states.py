@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''Contains the states view for the API.'''
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 from api.v1.views import app_views
@@ -51,7 +51,9 @@ def remove_state(state_id=None):
     if res:
         storage.delete(res[0])
         storage.save()
-        return jsonify({}), 200
+        response = make_response(jsonify({}), 200)
+        response.headers["Content-Type"] = "application/json"
+        return response
     raise NotFound()
 
 
@@ -66,7 +68,7 @@ def add_state(state_id=None):
     new_state = State(**data)
     storage.new(new_state)
     storage.save()
-    return jsonify(new_state.to_dict()), 201
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 def update_state(state_id=None):
