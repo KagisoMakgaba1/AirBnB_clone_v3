@@ -12,8 +12,9 @@ ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']
 '''Methods allowed for the states endpoint.'''
 
 
-@app_views.route('/states', methods=ALLOWED_METHODS)
-@app_views.route('/states/<state_id>', methods=ALLOWED_METHODS)
+@app_views.route('/states', methods=ALLOWED_METHODS, strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=ALLOWED_METHODS,
+                 strict_slashes=False)
 def handle_states(state_id=None):
     '''The method handler for the states endpoint.
     '''
@@ -58,12 +59,13 @@ def add_state(state_id=None):
     '''Adds a new state.
     '''
     data = request.get_json()
-    if type(data) is not dict:
+    if data is None:
         raise BadRequest(description='Not a JSON')
     if 'name' not in data:
         raise BadRequest(description='Missing name')
     new_state = State(**data)
-    new_state.save()
+    storage.new(new_state)
+    storage.save()
     return jsonify(new_state.to_dict()), 201
 
 
@@ -75,12 +77,12 @@ def update_state(state_id=None):
     res = list(filter(lambda x: x.id == state_id, all_states))
     if res:
         data = request.get_json()
-        if type(data) is not dict:
+        if data is None:
             raise BadRequest(description='Not a JSON')
         old_state = res[0]
         for key, value in data.items():
             if key not in xkeys:
                 setattr(old_state, key, value)
-        old_state.save()
+        storage.save()
         return jsonify(old_state.to_dict()), 200
     raise NotFound()
