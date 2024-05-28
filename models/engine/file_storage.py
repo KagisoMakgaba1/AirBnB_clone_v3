@@ -44,8 +44,8 @@ class FileStorage:
                 )
             )
             if res:
-                return res[0]
-        return None
+                return "Get success"
+        return "empty"
 
     def count(self, cls=None):
         """retrieves the number of objects of a class or all (if cls==None)"""
